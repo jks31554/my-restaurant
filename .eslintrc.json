@@ -3,6 +3,9 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [0],
-    "jsx-quotes": ["error", "prefer-single"]
+    "jsx-quotes": ["error", "prefer-single"],
+    "quotes": [2, "single"],
+    "react/jsx-one-expression-per-line": 0,
+    "react/jsx-curly-brace-presence": 0
   }
 }
