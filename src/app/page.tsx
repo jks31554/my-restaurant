@@ -1,9 +1,10 @@
 import Image from 'next/image';
-import style from './styles/colors';
 
-const { palette } = style;
-palette['gray-15'];
+import style from 'src/app/styles/colors';
+
 export default function Home() {
+  const { palette } = style;
+
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
@@ -18,7 +19,7 @@ export default function Home() {
             target='_blank'
             rel='noopener noreferrer'
           >
-            By{' '}
+            By
             <Image
               src='/vercel.svg'
               alt='Vercel Logo'
@@ -49,8 +50,8 @@ export default function Home() {
           target='_blank'
           rel='noopener noreferrer'
         >
-          <h2 className={'mb-3 text-2xl font-semibold'}>
-            Docs{' '}
+          <h2 className={`mb-3 text-2xl font-semibold`}>
+            Docs
             <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
               -&gt;
             </span>
@@ -66,8 +67,8 @@ export default function Home() {
           target='_blank'
           rel='noopener noreferrer'
         >
-          <h2 className={'mb-3 text-2xl font-semibold'}>
-            Learn{' '}
+          <h2 className={`mb-3 text-2xl font-semibold`}>
+            Learn
             <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
               -&gt;
             </span>
@@ -83,8 +84,8 @@ export default function Home() {
           target='_blank'
           rel='noopener noreferrer'
         >
-          <h2 className={'mb-3 text-2xl font-semibold'}>
-            Templates{' '}
+          <h2 className={`mb-3 text-2xl font-semibold`}>
+            Templates
             <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
               -&gt;
             </span>
@@ -100,8 +101,8 @@ export default function Home() {
           target='_blank'
           rel='noopener noreferrer'
         >
-          <h2 className={'mb-3 text-2xl font-semibold'}>
-            Deploy{' '}
+          <h2 className={`mb-3 text-2xl font-semibold`}>
+            Deploy
             <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
               -&gt;
             </span>
