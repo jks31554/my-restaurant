@@ -1,117 +1,112 @@
+'use client';
+import { FC, useState, useRef, KeyboardEvent } from 'react';
+import { useRouter } from 'next/router';
+import Title from 'src/app/components/Common/Title';
+import Input from 'src/app/components/Common/Input';
+import Button from 'src/app/components/Common/Button';
 import Image from 'next/image';
+import {
+  TitleStyle,
+  ButtonStyle,
+  InputStyle,
+  container,
+  section,
+  aside,
+} from 'src/app/styles/styled';
+import { AuthWarning } from 'src/app/components/Common/AuthWarning';
 
-import style from 'src/app/styles/colors';
+type Props = {};
 
-export default function Home() {
-  const { palette } = style;
+const Home: FC<Props> = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isUsernameValid, setIsUsernameValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const InputRef = useRef<HTMLInputElement>(null);
+
+  const handleUsernameChange = (value: string) => {
+    setUsername(value);
+    setIsUsernameValid(true);
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+    setIsPasswordValid(true);
+  };
+  const usernameInputRef = useRef<HTMLInputElement>(null);
+  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      if (event.currentTarget === usernameInputRef.current) {
+        InputRef.current?.focus();
+      } else if (event.currentTarget === InputRef.current) {
+        handleLogin();
+      }
+    }
+  };
+
+  const handleLogin = () => {
+    if (username.length < 6) {
+      setIsUsernameValid(false);
+    }
+    if (password.length < 7) {
+      setIsPasswordValid(false);
+    }
+    if (username.length >= 6 && password.length >= 7) {
+      alert('존재하지 않는 아이디입니다 회원가입을 진행해 주세요.');
+    }
+  };
+  const router = useRouter();
+
+  const onClickMove = () => {
+    router.push('/sign-in');
+  };
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
-        <p className='fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30'>
-          Get started by editing&nbsp;
-          <code className='font-mono font-bold'>src/app/page.tsx</code>
-        </p>
-        <div className='fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none'>
-          <a
-            className='pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0'
-            href='https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            By
-            <Image
-              src='/vercel.svg'
-              alt='Vercel Logo'
-              className='dark:invert'
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className='relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert'
-          src='/next.svg'
-          alt='Next.js Logo'
-          width={180}
-          height={37}
-          priority
+    <div style={container}>
+      <aside style={aside}>
+        <div
+          style={{
+            backgroundImage: 'url(/img/mainImage.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            width: '100vw',
+            height: '100vh',
+          }}
         />
-      </div>
-
-      <div className='mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left'>
-        <a
-          href='https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-          className='group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs
-            <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
-              -&gt;
-            </span>
-          </h2>
-          <p className={'m-0 max-w-[30ch] text-sm opacity-50'}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href='https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-          className='group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn
-            <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
-              -&gt;
-            </span>
-          </h2>
-          <p className={'m-0 max-w-[30ch] text-sm opacity-50'}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href='https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-          className='group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates
-            <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
-              -&gt;
-            </span>
-          </h2>
-          <p className={'m-0 max-w-[30ch] text-sm opacity-50'}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href='https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-          className='group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy
-            <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
-              -&gt;
-            </span>
-          </h2>
-          <p className={'m-0 max-w-[30ch] text-sm opacity-50'}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </aside>
+      <section style={section}>
+        <Title text='나만의 식당' style={TitleStyle} />
+        {/* <Title text='회원가입' style={TitleStyle} /> */}
+        <Input
+          label='아이디'
+          type='text'
+          onChange={handleUsernameChange}
+          style={InputStyle}
+          onKeyPress={handleKeyPress}
+          ref={usernameInputRef}
+        />
+        {!isUsernameValid && (
+          <AuthWarning text='아이디는 6자 이상 입력해주세요.' isValid={false} />
+        )}
+        <Input
+          label='비밀번호'
+          type='password'
+          onChange={handlePasswordChange}
+          style={InputStyle}
+          onKeyPress={handleKeyPress}
+          ref={InputRef}
+        />
+        {!isPasswordValid && (
+          <AuthWarning
+            text='비밀번호를 7자리 이상 입력해주세요.'
+            isValid={false}
+          />
+        )}
+        <Button text='로그인' onClick={handleLogin} style={ButtonStyle} />
+        <Button text='회원가입' onClick={onClickMove} style={ButtonStyle} />
+      </section>
+    </div>
   );
-}
+};
+
+export default Home;
