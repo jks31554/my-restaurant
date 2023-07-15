@@ -1,6 +1,6 @@
 'use client';
 import { FC, useState, useRef, KeyboardEvent } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Title from 'src/app/components/Common/Title';
 import Input from 'src/app/components/Common/Input';
 import Button from 'src/app/components/Common/Button';
