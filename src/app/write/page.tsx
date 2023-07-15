@@ -17,7 +17,7 @@ function Write() {
     uploadArticle(formData)
       .then((res) => {
         console.log("res:", res);
-        router.back();
+        router.push("/sign-in/main");
       })
       .catch((error) => console.log("error:", error));
   };

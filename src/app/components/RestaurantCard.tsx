@@ -7,9 +7,16 @@ import { palette } from "src/app/styles/colors";
 type Props = {
   image: string;
   text: string;
+  id: string;
+  handleDelete: (id: string) => void;
 };
 
-export const RestaurantCard: FC<Props> = ({ image, text }) => {
+export const RestaurantCard: FC<Props> = ({
+  image,
+  text,
+  id,
+  handleDelete,
+}) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const [slide, setSlide] = useState(false);
@@ -79,21 +86,24 @@ export const RestaurantCard: FC<Props> = ({ image, text }) => {
           transition: "all 1s ease",
           borderTopRightRadius: "10px",
           borderBottomRightRadius: "10px",
-          backgroundColor: palette["warning"],
+
           transform: slide ? "translateX(500px)" : "translateX(600px)",
         }}
       >
-        <div
+        <button
+          onClick={() => handleDelete(id)}
           style={{
             width: "100%",
             height: "100%",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            backgroundColor: palette["warning"],
+            border: "none",
           }}
         >
           <TrashCan />
-        </div>
+        </button>
       </div>
     </div>
   );

@@ -1,11 +1,13 @@
 "use client";
-import { FC, useEffect, useState } from "react";
+import { FC, Fragment, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Title from "src/app/components/Common/Title";
-import { TitleStyle, container, section, aside } from "src/app/styles/styled";
-import { RestaurantCard } from "../../components/RestaurantCard";
-import { ArticleType, getArticles } from "../../apis/article";
 import { AxiosError } from "axios";
+
+import Title from "src/app/components/Common/Title";
+import { RestaurantCard } from "src/app/components/RestaurantCard";
+
+import { TitleStyle, container, section, aside } from "src/app/styles/styled";
+import { ArticleType, deleteArticle, getArticles } from "src/app/apis/article";
 
 type Props = {};
 
@@ -13,20 +15,36 @@ const Main: FC<Props> = () => {
   const router = useRouter();
 
   const [isHovered, setIsHovered] = useState(false);
-  const [articles, setArticles] = useState<
-    (ArticleType & { articleId: number })[]
-  >([]);
+  const [articles, setArticles] = useState<ArticleType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    updateArticles();
+  }, []);
 
   const handleForm = () => {
     router.push("/write");
   };
 
-  useEffect(() => {
+  const handleDelete = useCallback((id: string) => {
+    deleteArticle(id)
+      .then((res) => {
+        console.log("delete resposne:", res);
+        updateArticles();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  const updateArticles = () => {
+    setIsLoading(true);
     getArticles()
       .then((res) => {
         if (res.status === 200) {
           console.log("status code:", res.status);
-          setArticles(res.data);
+          setArticles(res.data.reverse());
+          setIsLoading(false);
         }
       })
       .catch((error) => {
@@ -36,7 +54,7 @@ const Main: FC<Props> = () => {
           console.log("Not AxiosError:", error);
         }
       });
-  }, []);
+  };
 
   return (
     <div className="container" style={container}>
@@ -45,7 +63,6 @@ const Main: FC<Props> = () => {
         <article
           style={{
             display: "grid",
-            width: "50vw",
             gap: "20px",
             justifyContent: "center",
             // border: '1px solid red',
@@ -53,6 +70,7 @@ const Main: FC<Props> = () => {
         >
           <div
             style={{
+              width: "600px",
               display: "flex",
               justifyContent: "flex-end",
             }}
@@ -73,17 +91,22 @@ const Main: FC<Props> = () => {
               Add
             </button>
           </div>
-          {articles.reverse().map((article) => (
-            <RestaurantCard
-              key={article.articleId}
-              image={""}
-              text={article.title}
-            />
-          ))}
+          {isLoading ? (
+            <div>fetching data..</div>
+          ) : (
+            articles.map((article) => (
+              <RestaurantCard
+                key={article.id}
+                image={""}
+                id={article.id}
+                text={article.title}
+                handleDelete={handleDelete}
+              />
+            ))
+          )}
         </article>
       </section>
     </div>
   );
 };
-
 export default Main;
